@@ -35,6 +35,34 @@ export class LoginPage {
         await this.loginButton.click();
     }
 
+    
 
+    async getErrorMessage(): Promise<string> {        
+        return (await this.loginButton.textContent())?.trim() ?? '';
+    }
+
+
+    private async isValueMissing(locator: Locator): Promise<boolean> {
+
+        return await locator.evaluate(
+            element => (element as HTMLInputElement).validity.valueMissing
+        );
+    
+    }
+
+
+    async isUsernameValueMissing(): Promise<boolean> {
+
+        return await this.isValueMissing(this.usernameInput);
+    
+    }
+
+    async isPasswordValueMissing(): Promise<boolean> {
+
+        return await this.isValueMissing(this.passwordInput);
+    
+    }
+
+    
 
 }
