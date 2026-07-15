@@ -2,6 +2,8 @@ import { test, expect } from '@playwright/test';
 
 import { LoginPage } from '../../pages/LoginPage';
 
+import { HomePage } from '../../pages/HomePage';
+
 import { adminCredentials, invalidPasswordCredentials, invalidUsernameCredentials, emptyUsernameCredentials, emptyPasswordCredentials, emptyCredentials } from '../../test-data/credentials';
 
 
@@ -84,3 +86,21 @@ test('User cannot log in with both username and password empty', async ({ page }
 
 });
 
+
+
+
+test('Administrator can log out successfully', async ({ page }) => {
+
+    const loginPage = new LoginPage(page);
+
+    const homePage = new HomePage(page);
+
+    await loginPage.navigate();
+
+    await loginPage.login(adminCredentials);
+
+    await homePage.logout();
+
+    await expect(page).toHaveURL(/.*login.*/);
+
+});
